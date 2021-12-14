@@ -13,7 +13,8 @@ import InputLabel from "@material-ui/core/InputLabel";
 import styled from "styled-components";
 import DataTable from "../components/DataTable";
 import { CircularProgress } from "@material-ui/core";
-
+import IconButton from "@material-ui/core/IconButton";
+import ClearIcon from "@material-ui/icons/Clear";
 const StyledFormControl = styled(FormControl)`
   & {
     min-width: 10rem;
@@ -79,6 +80,15 @@ function Home() {
     setFilters(tempFilters);
   };
 
+  const resetFilters = async () => {
+    await setFilters({
+      from: new Date(2000, 0),
+      to: new Date(2015, 0),
+      series_id: "",
+    });
+    fetchEmissionsData();
+  };
+
   return (
     <Grid container spacing={2}>
       {!loading ? (
@@ -126,8 +136,14 @@ function Home() {
                   </Select>
                 </StyledFormControl>
               </Grid>
+
               <Grid item>
                 <Button onClick={fetchEmissionsData}>Apply Fitlers</Button>
+              </Grid>
+              <Grid item>
+                <IconButton aria-label="reset" onClick={resetFilters}>
+                  <ClearIcon />
+                </IconButton>
               </Grid>
             </MuiPickersUtilsProvider>
           </Grid>

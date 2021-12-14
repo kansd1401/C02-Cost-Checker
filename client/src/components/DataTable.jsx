@@ -27,24 +27,24 @@ const DataTable = ({ data, dataSchema }) => {
   }, [data]);
 
   useEffect(() => {
-    const sortData = (sortBy, sortOrder, itemsToSort) => {
-      // const itemsToSort = [...localItems];
-      const sortedItems = itemsToSort.sort((i, j) => {
-        if (i[sortBy] < j[sortBy]) {
-          return sortOrder === "asc" ? -1 : 1;
-        } else {
-          if (i[sortBy] > j[sortBy]) {
-            return sortOrder === "asc" ? 1 : -1;
-          } else {
-            return 0;
-          }
-        }
-      });
-      setLocalItems(sortedItems);
-    };
     if (sortItem.sortBy)
       sortData(sortItem.sortBy, sortItem.sortOrder, [...localItems]);
-  }, [sortItem, localItems]);
+  }, [sortItem]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const sortData = (sortBy, sortOrder, itemsToSort) => {
+    const sortedItems = itemsToSort.sort((i, j) => {
+      if (i[sortBy] < j[sortBy]) {
+        return sortOrder === "asc" ? -1 : 1;
+      } else {
+        if (i[sortBy] > j[sortBy]) {
+          return sortOrder === "asc" ? 1 : -1;
+        } else {
+          return 0;
+        }
+      }
+    });
+    setLocalItems(sortedItems);
+  };
 
   // normally one would commit/save any order changes via an api call here...
   const handleDragEnd = (result) => {
@@ -90,7 +90,7 @@ const DataTable = ({ data, dataSchema }) => {
         <TableHead>
           <TableRow>
             {dataSchema.map((schema) => (
-              <StyledTableCell align={schema.align}>
+              <StyledTableCell align={schema.align} id={schema.id}>
                 {schema.sortable ? (
                   <TableSortLabel
                     active={sortItem.sortBy === schema.id}
@@ -133,10 +133,14 @@ const DataTable = ({ data, dataSchema }) => {
                           {...draggableProvided.dragHandleProps}
                         >
                           {/*TODO: Use schema here to display value and parse it too depending on the type*/}
-                          <TableCell>{item.name}</TableCell>
-                          <TableCell align="right">{item.from}</TableCell>
-                          <TableCell align="right">{item.to}</TableCell>
-                          <TableCell align="right">
+                          <TableCell id={item.name}>{item.name}</TableCell>
+                          <TableCell align="right" id={item.from}>
+                            {item.from}
+                          </TableCell>
+                          <TableCell align="right" id={item.to}>
+                            {item.to}
+                          </TableCell>
+                          <TableCell align="right" id={item.value}>
                             <strong>${item.value.toFixed(1)}M</strong>
                           </TableCell>
                         </TableRow>
