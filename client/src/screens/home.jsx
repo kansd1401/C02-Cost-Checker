@@ -129,7 +129,7 @@ function Home() {
                       <em>None</em>
                     </MenuItem>
                     {states.map((state) => (
-                      <MenuItem value={state.series_id} id={state.series_id}>
+                      <MenuItem value={state.series_id} key={state.series_id}>
                         {state.name}
                       </MenuItem>
                     ))}

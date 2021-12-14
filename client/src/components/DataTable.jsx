@@ -48,6 +48,7 @@ const DataTable = ({ data, dataSchema }) => {
 
   // normally one would commit/save any order changes via an api call here...
   const handleDragEnd = (result) => {
+    console.log(result);
     if (!result.destination) {
       return;
     }
@@ -90,7 +91,7 @@ const DataTable = ({ data, dataSchema }) => {
         <TableHead>
           <TableRow>
             {dataSchema.map((schema) => (
-              <StyledTableCell align={schema.align} id={schema.id}>
+              <StyledTableCell align={schema.align} key={schema.id}>
                 {schema.sortable ? (
                   <TableSortLabel
                     active={sortItem.sortBy === schema.id}
@@ -133,14 +134,14 @@ const DataTable = ({ data, dataSchema }) => {
                           {...draggableProvided.dragHandleProps}
                         >
                           {/*TODO: Use schema here to display value and parse it too depending on the type*/}
-                          <TableCell id={item.name}>{item.name}</TableCell>
-                          <TableCell align="right" id={item.from}>
+                          <TableCell key={item.name}>{item.name}</TableCell>
+                          <TableCell align="right" key={item.from}>
                             {item.from}
                           </TableCell>
-                          <TableCell align="right" id={item.to}>
+                          <TableCell align="right" key={item.to}>
                             {item.to}
                           </TableCell>
-                          <TableCell align="right" id={item.value}>
+                          <TableCell align="right" key={item.value}>
                             <strong>${item.value.toFixed(1)}M</strong>
                           </TableCell>
                         </TableRow>
