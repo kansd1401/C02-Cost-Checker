@@ -31,6 +31,7 @@ app.get("/states/emissions", (req, res) => {
     )
     .then((response) => {
       console.log("Status Code:", response.status);
+      if (response.status === 500) throw error;
       const emissions = response.data.series.map((state) => {
         return {
           series_id: state.series_id,
@@ -43,7 +44,7 @@ app.get("/states/emissions", (req, res) => {
       res.json(emissions);
     })
     .catch((err) => {
-      console.log("Error: ", err.message);
+      res.status(500).send("Something broke!");
     });
 });
 

@@ -56,12 +56,16 @@ const DataTable = ({ data, dataSchema }) => {
     if (result.destination.index === result.source.index) {
       return;
     }
-
+    const [desIndex, sourceIndex] = [
+      result.destination.index,
+      result.source.index,
+    ];
     setLocalItems((prev) => {
       const temp = [...prev];
-      const d = temp[result.destination.index];
-      temp[result.destination.index] = temp[result.source.index];
-      temp[result.source.index] = d;
+      const row = temp[sourceIndex];
+
+      temp.splice(sourceIndex, 1);
+      temp.splice(desIndex, 0, row);
 
       return temp;
     });
